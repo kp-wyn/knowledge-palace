@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>技能架构师 · 定义与体系设计 v1.0</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #0a1628; color: #e8e8e8;
+    line-height: 1.8; font-size: 14px;
+  }
+  .page { max-width: 210mm; margin: 0 auto; padding: 40px 50px; background: #0d1f3c; }
+  .cover {
+    min-height: 250mm; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 100%);
+    position: relative;
+  }
+  .cover::before {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; height: 300px;
+    border: 2px solid #d4af37; border-radius: 50%; opacity: 0.12;
+  }
+  .cover-badge { color: #d4af37; font-size: 13px; letter-spacing: 6px; margin-bottom: 30px; }
+  .cover h1 { font-size: 44px; color: #fff; letter-spacing: 6px; margin-bottom: 16px; font-weight: 300; }
+  .cover .subtitle { color: #d4af37; font-size: 16px; letter-spacing: 2px; margin-bottom: 50px; }
+  .cover .meta { color: #8a9bb5; font-size: 13px; line-height: 2.2; }
+  .cover .meta strong { color: #d4af37; }
+  h2 {
+    color: #d4af37; font-size: 22px; margin: 40px 0 18px;
+    padding-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.3); letter-spacing: 2px;
+  }
+  h3 { color: #fff; font-size: 16px; margin: 24px 0 12px; padding-left: 12px; border-left: 3px solid #d4af37; }
+  p { margin-bottom: 12px; color: #c8d4e8; text-align: justify; }
+  .lead {
+    font-size: 16px; color: #fff;
+    background: rgba(212,175,55,0.08);
+    border-left: 3px solid #d4af37;
+    padding: 16px 20px; margin: 20px 0; line-height: 1.9;
+  }
+  .formula {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 8px; padding: 18px 24px; margin: 20px 0;
+    text-align: center; font-size: 17px; font-weight: bold; color: #d4af37;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: rgba(212,175,55,0.15); color: #d4af37; padding: 10px 12px; text-align: left; border: 1px solid rgba(212,175,55,0.3); }
+  td { padding: 10px 12px; border: 1px solid rgba(212,175,55,0.15); color: #c8d4e8; }
+  td:first-child { color: #d4af37; white-space: nowrap; font-weight: bold; }
+  .stack { margin: 20px 0; }
+  .stack-item {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid #d4af37;
+    padding: 12px 16px; margin: 6px 0;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .stack-item .lvl { color: #d4af37; font-weight: bold; font-size: 18px; min-width: 36px; }
+  .stack-item .what { flex: 1; color: #e8e8e8; }
+  .stack-item .what strong { color: #fff; }
+  .stack-item .out { color: #8a9bb5; font-size: 12px; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .compare > div { padding: 16px; border-radius: 6px; }
+  .compare .old { background: rgba(255,100,100,0.08); border: 1px solid rgba(255,100,100,0.2); }
+  .compare .new { background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.3); }
+  .compare h4 { margin-bottom: 8px; }
+  .compare .old h4 { color: #ff8a8a; }
+  .compare .new h4 { color: #d4af37; }
+  .compare ul { padding-left: 18px; font-size: 13px; }
+  .compare li { margin-bottom: 4px; color: #c8d4e8; }
+  .footer {
+    margin-top: 60px; padding-top: 20px;
+    border-top: 1px solid rgba(212,175,55,0.2);
+    text-align: center; color: #5a6b85; font-size: 12px; line-height: 2;
+  }
+  .footer strong { color: #d4af37; }
+  @media print { body { background: #0d1f3c; } .page { padding: 20mm; } }
+</style>
+</head>
+<body>
+
+<div class="page cover">
+  <div class="cover-badge">SKILL ARCHITECT</div>
+  <h1>技能架构师</h1>
+  <div class="subtitle">定义与体系设计 · 知识宫殿法新职业</div>
+  <div class="meta">
+    <div>提出者：<strong>王亚宁（kp-wyn）</strong></div>
+    <div>出品：<strong>职场金手指</strong></div>
+    <div>版本：v1.0 · 2026年9月</div>
+    <div>归属：知识宫殿法 KP-4+1</div>
+  </div>
+</div>
+
+<div class="page">
+
+<h2>一、什么是技能架构师</h2>
+<div class="lead">
+技能架构师（Skill Architect）：在 AI 时代，把真实业务与知识场景中的问题，通过技能架构设计、流水线编排和系统集成，转化为可复用、可运行、可进化的技能系统的人。
+</div>
+
+<div class="formula">
+技能架构师 = 场景洞察 × 技能设计 × 流水线编排 × 系统沉淀
+</div>
+
+<p><strong>三重责任：</strong></p>
+<p>① 对真实问题负责——不是坐在办公室猜需求，而是进现场看真实流程；<br>
+② 对技能系统落地负责——不是写一份技能说明书，而是做出被真实工作流程跑通过的技能；<br>
+③ 对知识资产沉淀负责——不是做一次丢一次，而是把个案抽象成可复用的技能模块。</p>
+
+<h3>为什么是现在？</h3>
+<p>三个趋势汇合：AI 能力爆炸但落地困难；技能（Skill）正在成为新基建；一人公司（OPC）崛起。大多数人会用 AI 工具，但没有人系统地"设计技能架构"——就像人人都会用电脑，但不是人人都会设计企业 IT 系统。这个缺口，就是技能架构师的位置。</p>
+
+<h3>散装 Agent 的三个典型病症</h3>
+<p>过去半年，大量一人公司老板装了 20-30 个 AI 工具、配了一堆工作流，看起来热火朝天，一到商业交付就掉链子。问题出在三处：</p>
+<table>
+  <tr><th>病症</th><th>表现</th></tr>
+  <tr><td>① 互相不通</td><td>写文案的 Agent 不知道做图的产出了什么，回邮件的不知道客户谈到哪一步——信息全靠老板人工搬运，一人公司变成"一人给 AI 打工"</td></tr>
+  <tr><td>② 没有骨头</td><td>AI 写出来的是网上扒的通用套路，不是老板自己的行业判断和方法论——客户一眼看出是 AI 模板</td></tr>
+  <tr><td>③ 无法沉淀</td><td>这个月踩的坑下个月还踩，每次交付从零开始，经验只存在老板脑子里，AI 调不动</td></tr>
+</table>
+<div class="lead">
+你买了一堆发动机、方向盘、轮胎堆在车库——那不叫车，开不上路。你有的是工具，不是系统。
+</div>
+
+<h3>为什么是知识宫殿法催生了这个职业？</h3>
+<p><strong>知识宫殿法（KP-4+1）</strong>是一套个人与组织知识操作系统：以宫殿为隐喻，把碎片化知识按地基层（采集）→结构层（建模）→加工层（提取激活）→调控层（复盘迭代）四层组织起来，由人机协同层贯穿全程，让人在 AI 时代把知识真正变成可复用的能力。提出者：王亚宁（kp-wyn）；对应著作《知识宫殿法：KP-4+1 个人与组织知识操作系统》及《知识宫殿：AI时代如何重建你的判断力、体系感与知识价值》（两本著作权登记申请中）。</p>
+
+<p>为什么是它，而不是别的笔记法或知识管理工具，催生出"技能架构师"这个角色？三个原因：</p>
+
+<table>
+  <tr><th>知识宫殿法的设计</th><th>为什么必然长出技能架构师</th></tr>
+  <tr><td>宪法第五条·蒸馏优先</td><td>明确规定"宫殿是工作台，不是仓库"——信息管理只作辅助，核心产出必须是方法论蒸馏成技能。既然产出是技能，就得有人负责设计和编排技能</td></tr>
+  <tr><td>宪法第三条·kp- 技能命名</td><td>成熟方法论必须封装为 kp- 前缀的可挂载技能，统一索引、随时调用。这本身就是"技能架构"工作——不是随便写个提示词，而是按规范建技能</td></tr>
+  <tr><td>加工层：从知识到技能</td><td>加工层核心任务就是"提取→激活→迁移→蒸馏技能"。知识卡是最小可调用单元，技能是更大的可调用单元——从卡片到技能的跃迁，需要专门的架构设计</td></tr>
+</table>
+
+<p>换句话说：<strong>大多数知识管理方法止步于"存好、连好"，知识宫殿法从第一天起就要求"蒸馏成可调用技能"</strong>。既然方法本身以技能为核心产出，那个负责设计技能、编排流水线、沉淀资产的角色——技能架构师——就是这套体系的自然产物。目前知识宫殿法已挂载 130+ 个 kp- 技能，这些技能本身就是技能架构师工作方法的实践样本。</p>
+
+<h2>二、和其他角色的区别</h2>
+<div class="compare">
+  <div class="old">
+    <h4>不是什么</h4>
+    <ul>
+      <li>不是外包开发——外包交付完就走，不对业务结果负责</li>
+      <li>不是产品经理——PM 画原型，技能架构师让技能真跑起来</li>
+      <li>不是培训讲师——讲师讲完就完，技能架构师沉淀可调用系统</li>
+      <li>不是数据分析师——分析师出报告，技能架构师把报告变成流水线</li>
+      <li>不是 AI 提示词工程师——提示词是单轮对话，技能架构师做的是端到端系统</li>
+    </ul>
+  </div>
+  <div class="new">
+    <h4>是什么</h4>
+    <ul>
+      <li>进真实场景，画场景地图</li>
+      <li>把模糊问题翻译成可拆解约束</li>
+      <li>设计单个技能的触发条件、输入输出、SOP、边界</li>
+      <li>把多个技能编排成端到端工作流</li>
+      <li>接入真实工具链和知识库</li>
+      <li>把每次交付沉淀成可复用技能资产</li>
+    </ul>
+  </div>
+</div>
+
+<p>参考 Palantir 的 FDE（Forward Deployed Engineer，前置部署工程师）——工程师直接进客户现场，把问题跑成可运行系统。技能架构师是 FDE 在知识与业务领域的对应角色：</p>
+
+<table>
+  <tr><th>FDE（Palantir）</th><th>技能架构师（一人公司/知识场景）</th></tr>
+  <tr><td>客户现场</td><td>你的真实工作场景</td></tr>
+  <tr><td>工程实现</td><td>技能设计与流水线编排</td></tr>
+  <tr><td>系统集成</td><td>接入你的飞书/微信/Excel/知识库</td></tr>
+  <tr><td>产品沉淀</td><td>技能模块库持续复利</td></tr>
+</table>
+<p><strong>本质是同一件事：把真实问题跑成可运行的系统，而不是交付一堆零散功能。</strong>不同的是，FDE 服务大客户，技能架构师服务一人公司与知识工作者——规模更小、速度更快，但对"经验结构化"的要求一点不低。</p>
+
+<p style="color:#8a9bb5; font-size:12.5px;">门槛澄清：技能架构师不要求会写代码。它要求的是——能把自己做事的步骤写清楚（"我做这件事先看什么、再判断什么、最后产出什么"），让 AI 照着做。写不出来的人，才需要技能架构师帮他把脑子里的东西倒出来。</p>
+
+</div>
+
+<div class="page">
+
+<h2>三、能力栈 L1-L6</h2>
+<div class="stack">
+  <div class="stack-item"><div class="lvl">L6</div><div class="what"><strong>系统架构</strong>：技能库 + 工具链 + 知识库 + 调度器的整体设计</div><div class="out">→ 架构图</div></div>
+  <div class="stack-item"><div class="lvl">L5</div><div class="what"><strong>资产沉淀</strong>：把个案抽象为可复用技能模块，让知识复利</div><div class="out">→ 技能模块库</div></div>
+  <div class="stack-item"><div class="lvl">L4</div><div class="what"><strong>流水线编排</strong>：多技能串成端到端工作流（串联/并联/分支/反馈循环/人工节点）</div><div class="out">→ 可运行流水线</div></div>
+  <div class="stack-item"><div class="lvl">L3</div><div class="what"><strong>技能设计</strong>：单个技能的触发条件、输入输出、SOP、失效边界</div><div class="out">→ SKILL.md</div></div>
+  <div class="stack-item"><div class="lvl">L2</div><div class="what"><strong>问题翻译</strong>：把"我想要个方案"这种模糊需求，拆成可执行约束</div><div class="out">→ 需求清单</div></div>
+  <div class="stack-item"><div class="lvl">L1</div><div class="what"><strong>场景洞察</strong>：深入真实使用场景，听懂真实目标，画场景地图</div><div class="out">→ 场景地图</div></div>
+</div>
+
+<p style="color:#8a9bb5; font-size:12.5px;">常见风险：只会代码像外包；只会沟通像顾问；不会沉淀做一次丢一次。L3 是分水岭——能独立设计一个完整技能，才算是入门。</p>
+
+<h2>四、六步工作流</h2>
+<table>
+  <tr><th>步骤</th><th>做什么</th><th>产出</th></tr>
+  <tr><td>① 进场景</td><td>看真实使用流程，而不是听人转述需求</td><td>场景地图</td></tr>
+  <tr><td>② 拆问题</td><td>找卡点、断点、重复劳动点</td><td>问题清单与约束</td></tr>
+  <tr><td>③ 设计技能</td><td>最短路径跑通最小可用技能原型</td><td>SKILL.md + 知识卡</td></tr>
+  <tr><td>④ 编流水线</td><td>多技能串联/并联/分支，跑通端到端流程</td><td>可运行工作流</td></tr>
+  <tr><td>⑤ 接系统</td><td>嵌入真实工具链、知识库、业务流程</td><td>真实上线点</td></tr>
+  <tr><td>⑥ 沉淀资产</td><td>用反馈迭代技能，个案变通用模块</td><td>技能模块入库</td></tr>
+</table>
+<div class="lead">
+技能架构师的产出不是一份技能说明书，而是被真实工作流程使用过的技能系统路径。
+</div>
+
+</div>
+
+<div class="page">
+
+<h2>五、三层体系</h2>
+
+<h3>第一层：单个技能设计规范</h3>
+<p>一个技能就是一个目录，核心是一份 SKILL.md：</p>
+<table>
+  <tr><th>层级</th><th>内容</th><th>何时加载</th></tr>
+  <tr><td>元数据</td><td>name + description（约 100 tokens，让调度器知道什么时候调它）</td><td>始终在上下文</td></tr>
+  <tr><td>指令层</td><td>SKILL.md 正文：SOP、规则、红线、输出格式</td><td>技能被激活时</td></tr>
+  <tr><td>资源层</td><td>references / templates / scripts / assets</td><td>需要时才读</td></tr>
+</table>
+
+<h3>第二层：流水线编排（多技能协同）</h3>
+<table>
+  <tr><th>模式</th><th>说明</th><th>示例</th></tr>
+  <tr><td>串联</td><td>A 输出 → B 输入 → C 输入</td><td>收集需求 → 写方案 → 做 PPT</td></tr>
+  <tr><td>并联</td><td>多技能同时跑，结果汇总</td><td>搜竞品 + 查政策 + 分析市场</td></tr>
+  <tr><td>条件分支</td><td>根据判断走不同路径</td><td>数据够 → 直接分析；不够 → 先补</td></tr>
+  <tr><td>反馈循环</td><td>输出 → 评估 → 不合格 → 回退重跑</td><td>写初稿 → 评分 → 不达标 → 重写</td></tr>
+  <tr><td>人工节点</td><td>关键判断点暂停，等人确认再继续</td><td>方案生成 → 等老板确认 → 再执行</td></tr>
+</table>
+
+<h3>第三层：技能系统架构</h3>
+<p>最上层是用户/业务场景；中间是调度器（Agent/OS），它决定什么时候调哪个技能；调度器下面是三件套——技能库、工具链、知识库+记忆；最底层是大模型（已经标准化，不用自己造）。技能架构师的主战场不在底层模型，而在中间这三层。</p>
+
+<h2>六、核心应用场景</h2>
+<table>
+  <tr><th>场景</th><th>技能架构师做什么</th></tr>
+  <tr><td>知识运用</td><td>把知识宫殿从仓库变成技能工厂——存知识是为了用，用的方式是技能调用</td></tr>
+  <tr><td>商业经营</td><td>把"老营销人的经验"变成"新人也能调用的技能"——经验不再只存在某个人脑子里</td></tr>
+  <tr><td>企业管理</td><td>决策层/管理层/执行层三层技能系统，老板只看异常和决策点</td></tr>
+  <tr><td>一人公司</td><td>你是调度器不是执行者——内容/营销/客服/财务/情报各由技能 Agent 负责</td></tr>
+</table>
+
+<h3>谁需要技能架构师？四条判断标准</h3>
+<p>如果你中了两条以上，就该认真考虑给自己配一个技能架构师（或自己上手做）：</p>
+<p>① 每周重复性工作超过 10 小时，值得技能化；<br>
+② 脑子里有一套方法论，但每次都要从零重新输出；<br>
+③ 接商业单时，担心 AI 交付质量不稳定、会掉链子；<br>
+④ 经验只存在你脑子里，人走茶凉，没沉淀成可复用资产。</p>
+<p>反过来，如果你只是偶尔用 AI 问个问题、写个东西——那是普通用户，不需要。</p>
+
+<div class="lead">
+一人公司不是"一个人干一个团队的活"，那是累死。一人公司是"一个人调度一套技能系统，系统帮你干活，你只管判断和方向"。
+</div>
+
+<h2>七、后续写作规划</h2>
+<p>技能架构师是知识宫殿法体系中的关键职业角色。后续两本著作将围绕这个角色展开：</p>
+<p><strong>第三本</strong>：技能架构师在个人知识宫殿中的应用——从个人经验蒸馏到技能挂载，一人公司的技能系统怎么搭。</p>
+<p><strong>第四本</strong>：技能架构师在企业级知识宫殿中的应用——组织级技能沉淀、岗位技能包、企业知识资产，配真实案例。</p>
+
+<div class="footer">
+  <strong>技能架构师 · 定义与体系设计 v1.0</strong><br>
+  提出者：王亚宁（kp-wyn） · 归属：知识宫殿法 KP-4+1<br>
+  版权所有 © 2026 王亚宁（kp-wyn） · 保留所有权利
+</div>
+
+</div>
+
+</body>
+</html>

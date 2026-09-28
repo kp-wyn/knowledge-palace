@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>知识宫殿法 KP-4+1 · 方法论白皮书 v1.0</title>
+<style>
+  @page { size: A4; margin: 20mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #0a1628;
+    color: #e8e8e8;
+    line-height: 1.8;
+    font-size: 14px;
+  }
+  .page {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 40px 50px;
+    background: #0d1f3c;
+    min-height: 297mm;
+  }
+  .cover {
+    min-height: 250mm;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 100%);
+    position: relative;
+  }
+  .cover::before {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px; height: 320px;
+    border: 2px solid #d4af37; border-radius: 50%; opacity: 0.12;
+  }
+  .cover::after {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 230px; height: 230px;
+    border: 1px solid #d4af37; border-radius: 50%; opacity: 0.18;
+  }
+  .cover-badge { color: #d4af37; font-size: 13px; letter-spacing: 6px; margin-bottom: 30px; position: relative; z-index: 2; }
+  .cover h1 { font-size: 46px; color: #fff; letter-spacing: 8px; margin-bottom: 16px; position: relative; z-index: 2; font-weight: 300; }
+  .cover .subtitle { color: #d4af37; font-size: 17px; letter-spacing: 3px; margin-bottom: 20px; position: relative; z-index: 2; }
+  .cover .tagline { color: #c8d4e8; font-size: 13px; letter-spacing: 2px; margin-bottom: 50px; position: relative; z-index: 2; }
+  .cover .meta { color: #8a9bb5; font-size: 13px; line-height: 2.2; position: relative; z-index: 2; }
+  .cover .meta strong { color: #d4af37; }
+  h2 {
+    color: #d4af37; font-size: 22px; margin: 40px 0 18px;
+    padding-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.3);
+    letter-spacing: 2px;
+  }
+  h3 { color: #fff; font-size: 16px; margin: 24px 0 12px; padding-left: 12px; border-left: 3px solid #d4af37; }
+  p { margin-bottom: 12px; color: #c8d4e8; text-align: justify; }
+  .lead {
+    font-size: 16px; color: #fff;
+    background: rgba(212,175,55,0.08);
+    border-left: 3px solid #d4af37;
+    padding: 16px 20px; margin: 20px 0; line-height: 1.9;
+  }
+  /* 4+1 架构图（借鉴PPT视觉：四层蓝堆叠 + 金色贯穿条） */
+  .arch41 {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap: 12px;
+    margin: 24px 0;
+    align-items: stretch;
+  }
+  .arch-stack { display: flex; flex-direction: column; gap: 6px; }
+  .arch-layer {
+    border-radius: 6px;
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .arch-layer .lname { color: #d4af37; font-weight: bold; font-size: 15px; min-width: 80px; }
+  .arch-layer .ldesc { color: #e8e8e8; font-size: 12.5px; }
+  .arch-l4 { background: #1e3a5f; }
+  .arch-l3 { background: #244773; }
+  .arch-l2 { background: #2a5487; }
+  .arch-l1 { background: #16294a; }
+  .arch-plus {
+    background: linear-gradient(180deg, #d4af37 0%, #b8941f 100%);
+    border-radius: 6px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: #0d1f3c; font-weight: bold; font-size: 14px;
+    text-align: center; line-height: 1.5;
+    padding: 10px;
+  }
+  .arch-plus .plus-mark { font-size: 22px; }
+  .arch-tagline {
+    text-align: center; color: #d4af37; font-size: 14px;
+    margin: 16px 0; letter-spacing: 2px; font-style: italic;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: rgba(212,175,55,0.15); color: #d4af37; padding: 10px 12px; text-align: left; border: 1px solid rgba(212,175,55,0.3); }
+  td { padding: 10px 12px; border: 1px solid rgba(212,175,55,0.15); color: #c8d4e8; }
+  td:first-child { color: #d4af37; white-space: nowrap; font-weight: bold; }
+  .law-item {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid #d4af37;
+    padding: 12px 16px; margin: 10px 0;
+  }
+  .law-item .num { color: #d4af37; font-weight: bold; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .compare > div { padding: 16px; border-radius: 6px; }
+  .compare .old { background: rgba(255,100,100,0.08); border: 1px solid rgba(255,100,100,0.2); }
+  .compare .new { background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.3); }
+  .compare h4 { margin-bottom: 8px; }
+  .compare .old h4 { color: #ff8a8a; }
+  .compare .new h4 { color: #d4af37; }
+  .compare ul { padding-left: 18px; font-size: 13px; color: #c8d4e8; }
+  .compare li { margin-bottom: 4px; }
+  .cycle {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0;
+    text-align: center;
+  }
+  .cycle .flow { color: #d4af37; font-size: 14px; letter-spacing: 1px; line-height: 2; }
+  .maturity {
+    background: rgba(100,200,100,0.06);
+    border-left: 3px solid #6ecb6e;
+    padding: 10px 14px; margin: 8px 0; font-size: 13px;
+  }
+  .maturity-pending {
+    background: rgba(255,200,100,0.06);
+    border-left: 3px solid #e6b95c;
+  }
+  .footer {
+    margin-top: 60px; padding-top: 20px;
+    border-top: 1px solid rgba(212,175,55,0.2);
+    text-align: center; color: #5a6b85; font-size: 12px; line-height: 2;
+  }
+  .footer strong { color: #d4af37; }
+  .page-break { page-break-after: always; }
+  @media print {
+    body { background: #0d1f3c; }
+    .page { padding: 20mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="page cover">
+  <div class="cover-badge">METHODOLOGY WHITEPAPER</div>
+  <h1>知识宫殿法</h1>
+  <div class="subtitle">KP-4+1 · 个人与组织知识操作系统</div>
+  <div class="tagline">把碎片化知识，蒸馏成可复用、可挂载、可进化的能力</div>
+  <div class="meta">
+    <div>提出者：<strong>王亚宁（kp-wyn）</strong></div>
+    <div>出品：<strong>职场金手指</strong></div>
+    <div>版本：v1.0 · 2026年9月</div>
+    <div>对应著作：《知识宫殿法：KP-4+1 个人与组织知识操作系统》</div>
+    <div>GitHub：<strong>github.com/kp-wyn</strong></div>
+  </div>
+</div>
+
+<div class="page">
+
+<h2>一、一句话定义</h2>
+<div class="lead">
+知识宫殿法（KP-4+1）是一套个人与组织知识操作系统：以建筑宫殿为组织隐喻，把碎片化的信息、经验和方法论，按四层主体结构——地基层（采集与原始素材）、结构层（分类与建模）、加工层（提取与激活）、调控层（复盘与迭代）——组织成一座可调用、可进化的活系统，并由贯穿全程的人机协同层（+1）驱动，让人在 AI 时代把知识真正变成可复用的能力。
+</div>
+
+<p>它不是又一个笔记软件使用指南，不是收藏夹整理术，也不是思维导图画法。它回答的核心问题只有一个：<strong>为什么学了那么多，真要用的时候调不出来？</strong></p>
+
+<p>答案是：大多数人的知识管理只做了"存"，没做"用"。知识宫殿法的出发点——<strong>知识不是用来存的，是用来用的。宫殿不是仓库，是工作台。</strong></p>
+
+<h3>和"记忆宫殿"的区别</h3>
+<p>记忆宫殿是一种记忆技巧，解决"记得住"，止步于存储。知识宫殿法解决的是从输入、筛选、体系搭建、内化输出到价值转化的<strong>完整闭环</strong>——它不是让你记住更多，而是让你调出、用出、长出新能力。</p>
+
+<h2>二、4+1 核心架构</h2>
+
+<div class="arch41">
+  <div class="arch-stack">
+    <div class="arch-layer arch-l4">
+      <div class="lname">调控层</div>
+      <div class="ldesc">复盘与迭代 · 日巡检/周复盘/月审计/淘汰更新/健康度评估 · 决定宫殿能不能自我进化</div>
+    </div>
+    <div class="arch-layer arch-l3">
+      <div class="lname">加工层</div>
+      <div class="ldesc">提取与激活 · 编码→存储→提取→激活→迁移→蒸馏技能 · 决定能不能真正消化</div>
+    </div>
+    <div class="arch-layer arch-l2">
+      <div class="lname">结构层</div>
+      <div class="ldesc">分类与建模 · 楼层/房间/走廊/库-区-房-卡 · 决定能不能快速定位</div>
+    </div>
+    <div class="arch-layer arch-l1">
+      <div class="lname">地基层</div>
+      <div class="ldesc">采集与原始素材 · 采集箱/编码/三验一密质检闸 · 决定宫殿能建多高</div>
+    </div>
+  </div>
+  <div class="arch-plus">
+    <div class="plus-mark">+1</div>
+    <div>人机协同层</div>
+    <div style="font-size:11px; font-weight:normal; margin-top:6px;">贯穿前四层<br>AI施工队做执行<br>人类做决策验收</div>
+  </div>
+</div>
+
+<div class="arch-tagline">地基决定高度 · 结构决定秩序 · 加工决定消化 · 调控决定进化 · 人机协同决定效率</div>
+
+<p><strong>三个必须说清的口径：</strong></p>
+<p>① <strong>+1 不是第五层</strong>。人机协同贯穿四个主体层，AI 在每一层都参与执行，却不单独成层。</p>
+<p>② <strong>可视化表达（看板、大屏、图表）是外围 Shell</strong>，不是第六层，不进内核。</p>
+<p>③ <strong>KP-Annex 裙房模块</strong>是挂在主体旁的即插即用扩展（临时爱好、专业领域、特定业务），可挂载可拆卸，不改动主体内核。</p>
+
+<table>
+  <tr><th>层级</th><th>核心任务</th><th>产出</th></tr>
+  <tr><td>地基层（01）</td><td>采集信息、编码标准化、入库前三验一密质检</td><td>经过检验的知识单元</td></tr>
+  <tr><td>结构层（02）</td><td>按领域建模、库-区-房-卡四级分类、封装可挂载 kp- 技能</td><td>结构化的知识宫殿</td></tr>
+  <tr><td>加工层（03）</td><td>提取调用、激活应用、跨域迁移、经验萃取、知识转化</td><td>可直接使用的技能与输出</td></tr>
+  <tr><td>调控层（04）</td><td>日周月审计、知识淘汰、结构优化、元认知反思、健康度评估</td><td>持续进化的活系统</td></tr>
+  <tr><td>+1 人机协同</td><td>AI 做执行与初稿，人做方向判断、质量终审、责任承担</td><td>效率与质量的平衡</td></tr>
+</table>
+
+</div>
+
+<div class="page">
+
+<h2>三、六条宪法（不可变核心）</h2>
+<p>知识宫殿的骨架，不能混搭、不能动摇：</p>
+
+<div class="law-item"><span class="num">第一条 · 隐喻唯一性</span><br>只使用"宫殿"隐喻（楼层/房间/走廊/地基/围墙/大院/地标），不引入仓库、大脑、卡片盒、花园等其他架构隐喻。其他隐喻只能作外部参考，不得进入宫殿结构。</div>
+
+<div class="law-item"><span class="num">第二条 · 4+1 结构不可变</span><br>四个主体层（地基→结构→加工→调控）顺序固定，不得新增、删除、合并；人机协同层贯穿四层，不是堆叠在顶端的"第五层"。任何功能必须在四个主体层中找到归属。</div>
+
+<div class="law-item"><span class="num">第三条 · 技能命名规范</span><br>成熟方法论封装为"挂载技能"，统一以 kp- 前缀命名、统一索引，可随时调用。非 kp- 前缀技能只作外部工具，不进宫殿架构。</div>
+
+<div class="law-item"><span class="num">第四条 · 知识卡七要素</span><br>每张知识卡必须包含：一句话核心、核心内容、使用方法、适用条件、失效提醒、关联知识卡、来源编号。七要素缺一不可。</div>
+
+<div class="law-item"><span class="num">第五条 · 蒸馏优先</span><br>核心产出是方法论蒸馏（技能+知识卡），信息管理（采集/存储/检索）只作辅助。宫殿是工作台，不是仓库；知识是用来用的，不是用来存的。</div>
+
+<div class="law-item"><span class="num">第六条 · 合规底线</span><br>所有对外输出经过法律法规审核，敏感信息脱敏，广告法极限词禁用。知识幕布从"验密"升级为"验密+验规"。</div>
+
+<h2>四、核心机制一：双闭环咬合</h2>
+<div class="lead">
+知识宫殿不是静态的分类盒子，而是两个闭环互相咬合、互相驱动的活系统。
+</div>
+
+<div class="cycle">
+  <div class="flow">
+    <strong>场景闭环：</strong>真实场景 → 采集素材 → 加工蒸馏 → 输出结果 → 反馈回到场景<br>
+    <strong>技能闭环：</strong>调用技能 → 产生结果 → 复盘优化 → 升级技能 → 更好地服务场景
+  </div>
+</div>
+
+<p>场景闭环解决"这件事怎么做"，技能闭环解决"下次这类事怎么做更快更好"。两个闭环在每次真实使用时咬合一次：场景喂给技能真实素材，技能反哺场景可复用方法。这就是知识宫殿从"有结构的资料堆"升级为"会生长的能力系统"的引擎。</p>
+
+<h2>五、核心机制二：价值飞轮</h2>
+<div class="cycle">
+  <div class="flow">
+    知识入库 → 加工蒸馏成能力 → 在场景中被使用<br>
+    → 被看见/被认可 → 可交易（咨询/课程/授权）→ 更多场景 → 更强能力
+  </div>
+</div>
+<p>飞轮的每一环都必须真实跑通。<strong>诚实标注：</strong>"能力可交易"一环目前仍处于假设待检验阶段，其余环节已在个人与咨询场景中验证。</p>
+
+</div>
+
+<div class="page">
+
+<h2>六、核心机制三：三验一密质检闸</h2>
+<p>所有知识入库的必经质检闸，是知识宫殿的免疫系统：</p>
+
+<table>
+  <tr><th>四库</th><th>验什么</th><th>存什么</th></tr>
+  <tr><td>知识沙箱</td><td>验疑</td><td>待验证的新知识、AI生成待确认内容、候选想法——先隔离观察，不直接入库</td></tr>
+  <tr><td>知识地标</td><td>验真</td><td>经检验的权威知识，按 S/A/B 三级评级，作为可信参照系</td></tr>
+  <tr><td>知识毒丸</td><td>验错</td><td>验证为错误的知识（伪科学/AI幻觉/认知误区/失败想法），从反面学习</td></tr>
+  <tr><td>知识幕布</td><td>验密+验规</td><td>敏感信息脱敏 + 法律法规合规检查，分通用/专业/企业三级</td></tr>
+</table>
+
+<p><strong>放行口诀：</strong>疑未解不放行、真未验不放行、错未除不放行、密未脱不放行、规未合不放行。</p>
+
+<h2>七、核心机制四：库-区-房-卡四级分类</h2>
+<table>
+  <tr><th>级别</th><th>含义</th></tr>
+  <tr><td>库</td><td>顶层仓库（通用知识库 / 外部培训知识库 / 法律法规知识库——三标配）</td></tr>
+  <tr><td>区</td><td>领域分区（一个领域=一座宫殿）</td></tr>
+  <tr><td>房</td><td>房间（一个方法/工具/主题=一个房间，每层 5-9 个起步）</td></tr>
+  <tr><td>卡</td><td>知识卡（七要素格式，最小可调用单元）</td></tr>
+</table>
+<p>关键阈值：<strong>空房预留 20%-30%</strong>（为新知识留生长空间）；<strong>临时缓冲区硬上限 ≤20 条</strong>，日清或周清，不让缓冲区变成新的收藏夹。</p>
+
+<h2>八、核心机制五：卡片——宫殿的最小可调用单元</h2>
+<div class="lead">
+卡片是知识宫殿的原子单位。一张卡片就是一条可独立调用、可版本更新、可关联复用的知识。所有卡片以 Markdown（.md）格式存储——这是 AI 最容易识别和引用的文本结构。
+</div>
+
+<h3>为什么用 Markdown？</h3>
+<p>Markdown 是 AI 的"母语"。它结构清晰（标题、列表、加粗、链接）、纯文本可读、不绑定任何软件、任何 AI 工具都能直接解析。知识宫殿的卡片全部以 .md 文件存储，每张卡一个文件，天然适配 AI 读取、检索、引用——这意味着这套方法产出的知识，AI 能直接理解和调用，而不是锁在某个笔记软件的私有格式里。</p>
+
+<h3>四类卡片</h3>
+<table>
+  <tr><th>卡片类型</th><th>存什么</th><th>编号前缀</th></tr>
+  <tr><td>知识卡</td><td>从书籍/课程/方法论蒸馏出的可复用知识，七要素齐全</td><td>KP-CARD-</td></tr>
+  <tr><td>经验卡</td><td>从个人项目实践中萃取的有效做法，含场景回放与边界</td><td>KP-EXP-</td></tr>
+  <tr><td>原则卡</td><td>价值观、判断准则、取舍标准，指导日常决策</td><td>KP-PRI-</td></tr>
+  <tr><td>错误想法卡</td><td>曾被相信、后被证伪的想法，记录偏差与教训</td><td>KP-ERR-</td></tr>
+</table>
+
+<h3>知识卡七要素（不可缺）</h3>
+<table>
+  <tr><th>要素</th><th>写什么</th></tr>
+  <tr><td>一句话核心</td><td>用一句话说清这条知识到底讲什么</td></tr>
+  <tr><td>核心内容</td><td>知识主体：是什么、为什么成立</td></tr>
+  <tr><td>使用方法</td><td>在什么场景、按什么步骤调用</td></tr>
+  <tr><td>适用条件</td><td>什么情况下能用</td></tr>
+  <tr><td>失效提醒</td><td>什么情况下它不再成立、要小心什么</td></tr>
+  <tr><td>关联知识卡</td><td>2-3 条，用双链指向相关卡片</td></tr>
+  <tr><td>来源编号</td><td>对应素材的来源与日期，可追溯</td></tr>
+</table>
+<p>每张卡有唯一编号，格式：<code>KP-CARD-&lt;领域&gt;-&lt;三位序号&gt;-v&lt;版本号&gt;</code>（如 KP-CARD-BRAND-007-v1.0）。版本更新时版本号递增，旧版归档不删除。编号让重复知识一查便知，也让卡片之间的关联可追溯。</p>
+
+<h3>上下文合并卡：榨干每一次 AI 对话</h3>
+<p>每次有价值的 AI 对话结束后，花 3 分钟蒸馏：这次对话里，<strong>哪个观点是之前不知道的？哪个旧认知被修正了？哪个方法是可以复用的？</strong>把这些增量蒸馏成一张新卡，来源标 <code>AI对话-日期-主题</code>。这是加工层的一个专门房间——AI 对话蒸馏间。它解决的是"跟 AI 聊了一百次，聊完什么都没留下"的问题。</p>
+
+<h3>为什么卡片让输出是"你的"？</h3>
+<p>AI 时代所有人输出的内容都像 AI 写的。卡片机制之所以能保住"这是你的东西"，靠的是每张卡里的<strong>个人痕迹</strong>：你的使用记录、你的失效提醒、你的关联选择、你的来源判断。这些是 AI 替代不了的。AI 可以生成初稿，但卡片里沉淀的"这条知识在我的场景下哪里灵、哪里不灵"，只有你自己知道。</p>
+
+<p style="color:#8a9bb5; font-size:12.5px;">注：多张卡片如何合并调用、如何跨场景组合，是本方法的进阶机制，后续在实战体系中展开。</p>
+
+<h2>九、核心机制六：调控节律</h2>
+<table>
+  <tr><th>节律</th><th>时长</th><th>做什么</th></tr>
+  <tr><td>日巡检</td><td>5-10 分钟</td><td>清缓冲区、合书默述、检查当日采集是否编码</td></tr>
+  <tr><td>周复盘</td><td>30-45 分钟</td><td>固定视角扫一遍，回顾用了哪些技能、效果如何</td></tr>
+  <tr><td>月审计</td><td>1-2 小时</td><td>轮流覆盖楼层，打四色标签：绿=保留 / 黄=待更新 / 红=淘汰 / 蓝=有缺口</td></tr>
+  <tr><td>季度重构</td><td>半天-1 天</td><td>拆合房间、校准空房、盘点价值</td></tr>
+</table>
+<p><strong>知识有半衰期：</strong>快知识 1-3 年（技术、热点）；中知识 5-10 年（方法论、行业规律）；慢知识是经典（底层原理、人性）。不调控的宫殿，半年就变成知识垃圾场。</p>
+
+</div>
+
+<div class="page">
+
+<h2>十、人机协同分工</h2>
+<table>
+  <tr><th>角色</th><th>负责什么</th><th>不负责什么</th></tr>
+  <tr><td>AI 施工队</td><td>采集、拆解、制图、压缩、初稿、格式转换、数据计算</td><td>做判断、做决策、对结果负责</td></tr>
+  <tr><td>AI 陪练</td><td>当反方质疑、模拟问答、辅助分析、提供选项</td><td>替你做选择、替你承担责任</td></tr>
+  <tr><td>人类业主</td><td>定方向、价值判断、质量终审、责任承担、创造性洞见</td><td>重复性劳动、机械整理、大量计算</td></tr>
+</table>
+<div class="lead">
+黄金规则：外包存储可以，外包理解判断不行；卸载细节可以，卸载结构原理不行。
+</div>
+
+<h2>十一、与其他知识管理方法的边界</h2>
+<div class="compare">
+  <div class="old">
+    <h4>传统笔记/第二大脑/卡片盒</h4>
+    <ul>
+      <li>核心构件：记录 + 链接</li>
+      <li>知识生命周期：不完整（停在记录/连接）</li>
+      <li>强制质检：弱或没有</li>
+      <li>技能封装调用：没有</li>
+      <li>合规与脱敏：不处理</li>
+      <li>主要服务：记忆外包 / 思考写作 / 公开分享</li>
+    </ul>
+  </div>
+  <div class="new">
+    <h4>知识宫殿法 KP-4+1</h4>
+    <ul>
+      <li>核心构件：楼层 + 卡片 + 技能 + 模块</li>
+      <li>知识生命周期：完整（采集→结构→加工→调控）</li>
+      <li>强制质检：三验一密，底层硬闸</li>
+      <li>技能封装调用：核心产出</li>
+      <li>合规与脱敏：知识幕布 + 法规库</li>
+      <li>主要服务：场景下的能力闭环</li>
+    </ul>
+  </div>
+</div>
+<p>宫殿不回避这些方法——卡片盒的原子化卡片、双向链接，已吸收转译为走廊与连廊；但宫殿真正多出来的，是这些方法普遍没有处理的后半程：<strong>怎么把卡片蒸馏成技能、怎么强制保证可靠与合规、怎么让系统围绕真实场景转起来。</strong></p>
+
+</div>
+
+<div class="page">
+
+<h2>十二、典型身份范式</h2>
+<p>同一套 KP-4+1 内核，不同身份只变外围房间布置：</p>
+<table>
+  <tr><th>身份</th><th>宫殿重点</th><th>特色库/技能</th></tr>
+  <tr><td>综合咨询顾问</td><td>加工层+技能挂载</td><td>品牌金字塔、提案、案例库</td></tr>
+  <tr><td>企业组织</td><td>公共宫殿+私人宫殿双层</td><td>岗位房间、企业级幕布、SOP 库</td></tr>
+  <tr><td>高校理科教师</td><td>结构层+调控层</td><td>备课、组卷、讲评、知识毒丸（错题）</td></tr>
+  <tr><td>初中英语教师</td><td>加工层+经验萃取</td><td>教学法、错题库、家长沟通</td></tr>
+</table>
+<p><strong>复用公式：</strong>内核不动（4+1/六条宪法/七要素/三验一密），重新布置外围（房间/特色库/专属技能/质检严格度/看板重点）。身份变了不用推倒重来。</p>
+
+<h2>十三、成熟度诚实标注</h2>
+<p>本方法不吹牛逼，哪些已验证、哪些待检验，说清楚：</p>
+<div class="maturity"><strong>已验证：</strong>双闭环咬合、第一条流水线 SOP（采集→建卡→挂载→调用→复盘）、个人版宫殿结构</div>
+<div class="maturity"><strong>初步验证：</strong>AI 采访者三法、想法漏斗、经验萃取四步法</div>
+<div class="maturity maturity-pending"><strong>假设待检验：</strong>价值飞轮中"能力可交易"一环、模块交易设想、企业级宫殿飞轮效果、更多行业身份范式</div>
+
+<h2>十四、技能架构师：AI 时代的新职业</h2>
+<div class="lead">
+技能架构师（Skill Architect）：在 AI 时代，把真实业务与知识场景中的问题，通过技能架构设计、流水线编排和系统集成，转化为可复用、可运行、可进化的技能系统的人。
+</div>
+
+<p style="background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.4); border-radius:8px; padding:14px 20px; margin:16px 0; text-align:center; color:#d4af37; font-weight:bold; font-size:16px;">
+技能架构师 = 场景洞察 × 技能设计 × 流水线编排 × 系统沉淀
+</p>
+
+<p><strong>三重责任：</strong>对真实问题负责（进现场看真实流程，不坐办公室猜需求）；对技能系统落地负责（做出被真实工作跑通过的技能，不是写说明书）；对知识资产沉淀负责（把个案抽象成可复用模块，不做一次丢一次）。</p>
+
+<p>参考 Palantir 的 FDE（前置部署工程师）——工程师直接进客户现场，把问题跑成可运行系统。技能架构师是 FDE 在知识与业务领域的对应角色：FDE 把客户现场变成软件系统，技能架构师把知识与业务变成技能系统。</p>
+
+<h3>能力栈 L1-L6</h3>
+<table>
+  <tr><th>层级</th><th>能力</th><th>产出</th></tr>
+  <tr><td>L1</td><td>场景洞察：深入真实使用场景，画场景地图</td><td>场景地图</td></tr>
+  <tr><td>L2</td><td>问题翻译：把模糊需求拆成可执行约束</td><td>需求清单</td></tr>
+  <tr><td>L3</td><td>技能设计：触发条件/输入输出/SOP/失效边界</td><td>SKILL.md</td></tr>
+  <tr><td>L4</td><td>流水线编排：多技能串联/并联/分支/反馈循环</td><td>可运行工作流</td></tr>
+  <tr><td>L5</td><td>资产沉淀：个案抽象为可复用技能模块</td><td>技能模块库</td></tr>
+  <tr><td>L6</td><td>系统架构：技能库+工具链+知识库+调度器整体设计</td><td>架构图</td></tr>
+</table>
+
+<h3>六步工作流</h3>
+<p>进场景 → 拆问题 → 设计技能 → 编流水线 → 接系统 → 沉淀资产。每一步都有明确产出，关键是<strong>技能必须被真实工作流程跑过</strong>，不能停留在 demo。</p>
+
+<h3>和知识管理的区别</h3>
+<p>知识管理是"把东西存好"，技能架构是"把东西炼好"。不做信息的仓库管理员，做方法论的蒸馏师和架构师。模型会被追平，工具会被复制，但被技能架构师沉淀下来的技能系统和知识资产，才是个人和企业真正的护城河。</p>
+
+<p style="color:#8a9bb5; font-size:12.5px;">注：技能架构师的完整体系（含能力栈详解、流水线五种模式、系统架构图、应用场景、自检表）见独立文件《技能架构师·定义与体系设计》。后续两本著作将分别展开其在个人知识宫殿与企业级知识宫殿中的应用与真实案例。</p>
+
+<h2>十五、版权与引用</h2>
+<p><strong>方法全称：</strong>知识宫殿法（KP-4+1 个人与组织知识操作系统）</p>
+<p><strong>对应著作：</strong>《知识宫殿法：KP-4+1 个人与组织知识操作系统》（著作权登记申请中）</p>
+<p><strong>姊妹篇：</strong>《知识宫殿：AI时代如何重建你的判断力、体系感与知识价值》（著作权登记申请中）</p>
+<p><strong>提出者：</strong>王亚宁（kp-wyn）</p>
+<p><strong>出品：</strong>职场金手指</p>
+<p><strong>GitHub：</strong>github.com/kp-wyn</p>
+<p><strong>引用规范：</strong>引用本方法论时，请标注"知识宫殿法（KP-4+1），王亚宁（kp-wyn）提出"。未经授权不得将整套方法论包装为自有体系。</p>
+
+<div class="footer">
+  <strong>知识宫殿法（KP-4+1） · 方法论白皮书 v1.0</strong><br>
+  提出者：王亚宁（kp-wyn） · 出品：职场金手指 · GitHub: github.com/kp-wyn<br>
+  版权所有 © 2026 王亚宁（kp-wyn） · 保留所有权利
+</div>
+
+</div>
+
+</body>
+</html>
