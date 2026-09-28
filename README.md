@@ -52,6 +52,12 @@
 | [Methodology Whitepaper v1.0](docs/whitepaper-v1.0.html) | 方法论白皮书 v1.0 — full KP-4+1 system |
 | [Skill Architect Definition & System Design v1.0](docs/skill-architect-v1.0.html) | 技能架构师·定义与体系设计 |
 
+## Related Repos / 相关仓库
+
+| Repo | Description |
+|---|---|
+| [kp-pro-skills](https://github.com/kp-wyn/kp-pro-skills) | 纯净版工具技能包（kp-remember 记录工具 + kp-sum-trip-plan 工作总结生成器） |
+
 ---
 
 ## Author / 提出者
